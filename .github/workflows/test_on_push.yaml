@@ -1,43 +1,16 @@
-name: Run tests on any Push event
+name: CI/CD Pipeline - Flask Docker App
+
 on:
   push:
-    tags:
-      - '!refs/tags/*'
     branches:
-      - '*'
+      - main
+
 jobs:
-  run_tests:
-    runs-on: [ubuntu-latest]
-#    container:
-#      image: docker://repo:tag
-#      env:
-#        T1: t1
+  build:
+    runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        python-version: [3.5, 3.6, 3.7, 3.8]
     steps:
-      - uses: actions/checkout@v2
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v1
-        with:
-          python-version: ${{ matrix.python-version }}
-      - name: Install requirements
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-      - name: echo workspace
-        run: echo $GITHUB_WORKSPACE
-        shell: bash
-      - name: Run tests
-        run: coverage run src/app_test.py
-      - name: Tests report
-        run: coverage report
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - name: Hello world action step
-        id: hello
-        uses: ozada/test-action@v1
-        with:
-          who-to-greet: 'Joe Dow'
-      - name: Get the output time
-        run: echo "The time was ${{ steps.hello.outputs.time }}"
+      - name: Set
